@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>교실 자리배치도</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-shuffle {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-shuffle:hover {
+      background-color: #2563eb;
+    }
+
+    .btn-reset {
+      background-color: #6b7280;
+      color: white;
+    }
+
+    .btn-reset:hover {
+      background-color: #4b5563;
+    }
+
+    .status {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .status.hidden {
+      display: none;
+    }
+
+    .classroom {
+      border: 2px solid #333;
+      padding: 15px;
+      background: #fff;
+    }
+
+    .back-window {
+      text-align: center;
+      padding: 8px;
+      background-color: #e0f2fe;
+      border: 1px solid #0284c7;
+      margin-bottom: 15px;
+      font-weight: 600;
+      color: #0369a1;
+    }
+
+    .seating-area {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      margin-right: 0;
+      justify-content: space-around;
+    }
+
+    .section-left {
+      border: none;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-center {
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-right {
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .row {
+      display: flex;
+      gap: 4px;
+    }
+
+    .seat {
+      width: 60px;
+      height: 32px;
+      border: 1px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: ivory;
+      user-select: none;
+    }
+
+    .seat:hover {
+      background-color: #f0f9ff;
+      border-color: #3b82f6;
+    }
+
+    .seat.selected {
+      background-color: #dbeafe;
+      border: 2px solid #3b82f6;
+      font-weight: 600;
+    }
+
+    .seat.empty {
+      background-color: #f9fafb;
+      cursor: default;
+      visibility: hidden;
+    }
+
+    .seat.empty:hover {
+      background-color: #f9fafb;
+      border-color: #d1d5db;
+    }
+
+
+    .front-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      padding: 15px;
+      border-top: 2px solid #333;
+    }
+
+    .teacher {
+      padding: 10px 30px;
+      background-color: #fef9c3;
+      border: 1px solid #ca8a04;
+      font-weight: 600;
+      color: #854d0e;
+    }
+
+    .screen {
+      padding: 10px 60px;
+      background-color: #f3e8ff;
+      border: 1px solid #9333ea;
+      font-weight: 600;
+      color: #7c3aed;
+    }
+
+    .instructions {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8fafc;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .instructions h3 {
+      font-size: 14px;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .instructions ul {
+      padding-left: 20px;
+    }
+
+    .instructions li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>교실 자리배치도</h1>
+    
+    <div class="controls">
+      <button class="btn btn-shuffle" onclick="shuffleSeats()">랜덤 셔플</button>
+      <button class="btn btn-reset" onclick="resetSeats()">초기화</button>
+    </div>
+
+    <div class="classroom">
+      <div class="back-window">뒤쪽 유리창</div>
+      
+      <div class="seating-area">
+        <!-- 왼쪽 섹션 (빨간 테두리) - 2열 4행 -->
+        <div class="section-left" id="section-left">
+          <div class="row">
+            <div class="seat" data-section="left" data-row="0" data-col="0"></div>
+            <div class="seat" data-section="left" data-row="0" data-col="1"></div>
+          </div>
+          <div class="row">
+            <div class="seat red-text" data-section="left" data-row="1" data-col="0"></div>
+            <div class="seat red-text" data-section="left" data-row="1" data-col="1"></div>
+          </div>
+          <div class="row">
+            <div class="seat empty" data-section="left" data-row="2" data-col="0"></div>
+            <div class="seat" data-section="left" data-row="2" data-col="1"></div>
+          </div>
+          <div class="row">
+            <div class="seat empty" data-section="left" data-row="3" data-col="0"></div>
+            <div class="seat" data-section="left" data-row="3" data-col="1"></div>
+          </div>
+        </div>
+
+        <!-- 중앙 섹션 - 3열 5행 -->
+        <div class="section-center" id="section-center">
+          <div class="row">
+            <div class="seat" data-section="center" data-row="0" data-col="0"></div>
+            <div class="seat" data-section="center" data-row="0" data-col="1"></div>
+            <div class="seat" data-section="center" data-row="0" data-col="2"></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-section="center" data-row="1" data-col="0"></div>
+            <div class="seat" data-section="center" data-row="1" data-col="1"></div>
+            <div class="seat" data-section="center" data-row="1" data-col="2"></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-section="center" data-row="2" data-col="0"></div>
+            <div class="seat" data-section="center" data-row="2" data-col="1"></div>
+            <div class="seat" data-section="center" data-row="2" data-col="2"></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-section="center" data-row="3" data-col="0"></div>
+            <div class="seat" data-section="center" data-row="3" data-col="1"></div>
+            <div class="seat" data-section="center" data-row="3" data-col="2"></div>
+          </div>
+          <div class="row">
+            <div class="seat empty" data-section="center" data-row="4" data-col="0"></div>
+            <div class="seat" data-section="center" data-row="4" data-col="1"></div>
+            <div class="seat" data-section="center" data-row="4" data-col="2"></div>
+          </div>
+        </div>
+
+        <!-- 오른쪽 섹션 - 2열 5행 -->
+        <div class="section-right" id="section-right">
+          <div class="row">
+            <div class="seat" data-section="right" data-row="0" data-col="0"></div>
+            <div class="seat" data-section="right" data-row="0" data-col="1"></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-section="right" data-row="1" data-col="0"></div>
+            <div class="seat red-text" data-section="right" data-row="1" data-col="1"></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-section="right" data-row="2" data-col="0"></div>
+            <div class="seat" data-section="right" data-row="2" data-col="1"></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-section="right" data-row="3" data-col="0"></div>
+            <div class="seat" data-section="right" data-row="3" data-col="1"></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-section="right" data-row="4" data-col="0"></div>
+            <div class="seat" data-section="right" data-row="4" data-col="1"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="status" class="status hidden"></div>
+
+      <div class="front-area">
+        <div class="teacher">강사</div>
+        <div class="screen">앞쪽 스크린</div>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h3>사용 방법</h3>
+      <ul>
+        <li><strong>랜덤 셔플:</strong> 버튼을 클릭하면 모든 학생의 자리가 무작위로 섞입니다.</li>
+        <li><strong>수동 교환:</strong> 첫 번째 자리를 클릭한 후 두 번째 자리를 클릭하면 두 학생의 자리가 교환됩니다.</li>
+        <li><strong>선택 취소:</strong> 첫 번째 자리를 클릭한 후 동일 자리를 클릭하거나 Escape 키를 누르면 선택이 취소됩니다.</li>
+        <li><strong>초기화:</strong> 원래 자리배치로 되돌립니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // 초기 자리 데이터 (엑셀 이미지 기준 - 정확한 배치)
+    const initialSeats = {
+      left: [
+        ['조윤', '조은결'],
+        ['권태현', '김성호'],
+        ['', '한혜경'],
+        ['', '유지산']
+      ],
+      center: [
+        ['이준우', '최준호', '이서우'],
+        ['김민정', '박지우', '박은빈'],
+        ['진미경', '박상우', '조용민'],
+        ['김민정', '이종혁', '김유신'],
+        ['','심정호', '이태경']
+      ],
+      right: [
+        ['함동건', '이상욱'],
+        ['원가희', '신혜진'],
+        ['김선희', '한은태'],
+        ['박소율', '박준하'],
+        ['제란', '이민지']
+      ]
+    };
+
+    // 현재 자리 데이터
+    let currentSeats = JSON.parse(JSON.stringify(initialSeats));
+    
+    // 선택된 자리
+    let selectedSeat = null;
+
+    // 자리 렌더링
+    function renderSeats() {
+      const sections = ['left', 'center', 'right'];
+      
+      sections.forEach(section => {
+        currentSeats[section].forEach((row, rowIndex) => {
+          row.forEach((name, colIndex) => {
+            const seat = document.querySelector(
+              `[data-section="${section}"][data-row="${rowIndex}"][data-col="${colIndex}"]`
+            );
+            if (seat && !seat.classList.contains('empty')) {
+              seat.textContent = name;
+            }
+          });
+        });
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      let seat = document.querySelector('.seat.selected');
+      if (!seat) return;
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        seat.classList.remove('selected');
+        selectedSeat = null;
+        hideStatus();
+      }
+    });
+    // 자리 클릭 이벤트
+    function handleSeatClick(e) {
+      const seat = e.target;
+      if (!seat.classList.contains('seat') || seat.classList.contains('empty')) return;
+
+      const section = seat.dataset.section;
+      const row = parseInt(seat.dataset.row);
+      const col = parseInt(seat.dataset.col);
+
+      if (selectedSeat && selectedSeat.element === seat) {
+        seat.classList.remove('selected');
+        selectedSeat = null;
+        hideStatus();
+        return;
+      }
+
+if (!currentSeats[section][row][col]) {
+  showStatus('빈자리입니다.');
+}
+
+      if (!selectedSeat) {
+        // 첫 번째 자리 선택
+        selectedSeat = { element: seat, section, row, col };
+        seat.classList.add('selected');
+        showStatus(`"${currentSeats[section][row][col] || '빈자리'}" 선택됨 - 교환할 자리를 클릭하세요`);
+      } else {
+        // 두 번째 자리 선택 - 교환
+        const first = selectedSeat;
+        const temp = currentSeats[first.section][first.row][first.col];
+        currentSeats[first.section][first.row][first.col] = currentSeats[section][row][col];
+        currentSeats[section][row][col] = temp;
+
+        // UI 업데이트
+        first.element.classList.remove('selected');
+        selectedSeat = null;
+        renderSeats();
+        showStatus(`자리가 교환되었습니다!`);
+        
+        setTimeout(() => hideStatus(), 2000);
+      }
+    }
+function showStatus(message, duration = 2000) {
+  const status = document.getElementById('status');
+  status.textContent = message;
+  status.classList.remove('hidden');
+
+  if (duration) {
+    setTimeout(() => hideStatus(), duration);
+  }
+}
+    // 랜덤 셔플
+    function shuffleSeats() {
+      // 모든 학생 이름 수집 (빈 자리 제외)
+      const allNames = [];
+      const positions = [];
+
+      ['left', 'center', 'right'].forEach(section => {
+        currentSeats[section].forEach((row, rowIndex) => {
+          row.forEach((name, colIndex) => {
+            const seat = document.querySelector(
+              `[data-section="${section}"][data-row="${rowIndex}"][data-col="${colIndex}"]`
+            );
+            if (seat && !seat.classList.contains('empty')) {
+              if (name) allNames.push(name);
+              positions.push({ section, row: rowIndex, col: colIndex });
+            }
+          });
+        });
+      });
+
+      // Fisher-Yates 셔플
+      for (let i = allNames.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allNames[i], allNames[j]] = [allNames[j], allNames[i]];
+      }
+
+      // 셔플된 이름 배치
+      let nameIndex = 0;
+      positions.forEach(pos => {
+        if (nameIndex < allNames.length) {
+          currentSeats[pos.section][pos.row][pos.col] = allNames[nameIndex++];
+        } else {
+          currentSeats[pos.section][pos.row][pos.col] = '';
+        }
+      });
+
+      // 선택 초기화
+      if (selectedSeat) {
+        selectedSeat.element.classList.remove('selected');
+        selectedSeat = null;
+      }
+
+      renderSeats();
+      showStatus('자리가 랜덤으로 섞였습니다!');
+      setTimeout(() => hideStatus(), 2000);
+    }
+
+    // 초기화
+    function resetSeats() {
+      currentSeats = JSON.parse(JSON.stringify(initialSeats));
+      
+      if (selectedSeat) {
+        selectedSeat.element.classList.remove('selected');
+        selectedSeat = null;
+      }
+
+      renderSeats();
+      showStatus('자리가 초기화되었습니다!');
+      setTimeout(() => hideStatus(), 2000);
+    }
+
+    // 상태 메시지 표시
+    function showStatus(message) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.classList.remove('hidden');
+    }
+
+    // 상태 메시지 숨기기
+    function hideStatus() {
+      const status = document.getElementById('status');
+      status.classList.add('hidden');
+    }
+
+    // 이벤트 리스너 등록
+    document.querySelectorAll('.seat').forEach(seat => {
+      seat.addEventListener('click', handleSeatClick);
+    });
+
+    // 초기 렌더링
+    renderSeats();
+  </script>
+</body>
+</html>

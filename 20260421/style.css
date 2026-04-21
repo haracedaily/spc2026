@@ -1,0 +1,67 @@
+body {
+  font-family: Arial;
+  text-align: center;
+}
+
+.controls button {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+.layout {
+  display: flex;
+  justify-content: center;
+  gap: 120px; /* 분단 간 거리 */
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.seat {
+  width: 110px;
+  height: 45px;
+  background: #f3e2a0;
+  border: 1px solid #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+
+.yellow {
+  background: #f7e7a0;
+}
+
+/* 👤 사람 카드 */
+.person {
+  padding: 6px;
+  margin: 4px;
+  border-radius: 6px;
+  cursor: grab;
+  font-size: 12px;
+}
+
+.male { background: #cde5ff; }
+.female { background: #ffd6e7; }
+
+.pool {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}

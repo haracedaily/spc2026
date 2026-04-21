@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>자리 배치도</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+}
+
+.controls button {
+  margin: 5px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+#pool {
+  margin: 20px;
+}
+
+.person {
+  display: inline-block;
+  padding: 6px 10px;
+  margin: 4px;
+  border-radius: 6px;
+  cursor: grab;
+  background: #ddd;
+}
+
+/* 🔥 핵심: 엑셀 좌표 고정 */
+#layout {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  margin: auto;
+  border: 1px solid #ccc;
+}
+
+/* 좌석 */
+.seat {
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  background: #f3e2a0;
+  border: 1px solid #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+</head>
+<body>
+
+<h2>자리 배치도</h2>
+
+<div class="controls">
+  <button onclick="shuffleSeats()">🎲 랜덤</button>
+  <button onclick="enableSwap()">🔄 교환모드</button>
+  <button onclick="resetSeats()">🧹 초기화</button>
+</div>
+
+<h3>대기 인원</h3>
+<div id="pool"></div>
+
+<!-- 🔥 좌석 영역 -->
+<div id="layout"></div>
+
+<script>
+/* 👥 전체 인원 (엑셀 그대로) */
+const people = [
+"조윤","권태현",
+"조은결","김성훈","허현정","유지산",
+"이준우","김민정","진미경","김민정",
+"최준호","박지수","박상우","이종희","심정호",
+"이서우","박윤빈","조용민","김윤선","이태경",
+"황동건","원가희","김선희","박초롱","채란",
+"이상욱","신혜진","한은태","박준하","이민지"
+];
+
+/* 🔥 엑셀 기반 좌표 (직접 맞춘 값) */
+const seatPositions = [
+  // 왼쪽
+  [50,50],[50,100],
+  [200,50],[200,100],[200,150],[200,200],
+
+  // 가운데
+  [350,50],[350,100],[350,150],[350,200],
+  [500,50],[500,100],[500,150],[500,200],[500,250],
+  [650,50],[650,100],[650,150],[650,200],[650,250],
+
+  // 오른쪽
+  [800,50],[800,100],[800,150],[800,200],[800,250],
+  [950,50],[950,100],[950,150],[950,200],[950,250]
+];
+
+const layout = document.getElementById("layout");
+const pool = document.getElementById("pool");
+
+let current = null;
+let swapMode = false;
+let firstSeat = null;
+
+/* 좌석 생성 */
+const seats = [];
+seatPositions.forEach(pos => {
+  const seat = document.createElement("div");
+  seat.className = "seat";
+  seat.style.left = pos[0] + "px";
+  seat.style.top = pos[1] + "px";
+
+  seat.ondragover = e => e.preventDefault();
+
+  seat.ondrop = () => {
+    if (!current) return;
+
+    if (seat.firstChild) {
+      pool.appendChild(seat.firstChild);
+    }
+    seat.appendChild(current);
+  };
+
+  seat.onclick = () => {
+    if (!swapMode) return;
+
+    if (!firstSeat) {
+      firstSeat = seat;
+      seat.style.outline = "2px solid red";
+    } else {
+      let temp = seat.innerHTML;
+      seat.innerHTML = firstSeat.innerHTML;
+      firstSeat.innerHTML = temp;
+      firstSeat.style.outline = "";
+      firstSeat = null;
+    }
+  };
+
+  layout.appendChild(seat);
+  seats.push(seat);
+});
+
+/* 사람 생성 */
+function init() {
+  pool.innerHTML = "";
+
+  people.forEach(name => {
+    const div = document.createElement("div");
+    div.className = "person";
+    div.draggable = true;
+    div.textContent = name;
+
+    div.ondragstart = () => current = div;
+
+    pool.appendChild(div);
+  });
+}
+
+/* 랜덤 */
+function shuffleSeats() {
+  let assigned = seats.map(s => s.firstChild).filter(Boolean);
+
+  for (let i = assigned.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [assigned[i], assigned[j]] = [assigned[j], assigned[i]];
+  }
+
+  seats.forEach((seat, i) => {
+    if (assigned[i]) {
+      seat.innerHTML = "";
+      seat.appendChild(assigned[i]);
+    }
+  });
+}
+
+/* 교환 */
+function enableSwap() {
+  swapMode = !swapMode;
+  alert("교환모드 " + (swapMode ? "ON" : "OFF"));
+}
+
+/* 초기화 */
+function resetSeats() {
+  seats.forEach(seat => {
+    if (seat.firstChild) {
+      pool.appendChild(seat.firstChild);
+    }
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
