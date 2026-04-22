@@ -1,0 +1,74 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>입력폼에 넣을 수 있는 다양한 값</h1>
+        <h2>여러개 중 단일 선택</h2>
+        <input type="radio" name="gender" id="male" value="1">
+        <label for="male">남성</label>
+        <input type="radio" name="gender" id="female" value="2">
+        <label for="female">여성</label>
+        <input type="radio" name="gender" id="other" value="3">
+        <label for="other">기타</label>
+        <hr>
+        <input type="radio" name="coffee" id="americano" value="coffee_americano">
+        <label for="americano">아메리카노</label>
+        <input type="radio" name="coffee" id="latte" value="coffee_latte">
+        <label for="latte">카페라떼</label>
+        <input type="radio" name="coffee" id="cappuccino" value="coffee_cappuccino">
+        <label for="cappuccino">카푸치노</label>
+        <hr>
+        <input type="radio" name="tea" id="green_tea" value="tea_green">
+        <label for="green_tea">녹차</label>
+        <input type="radio" name="tea" id="black_tea" value="tea_black">
+        <label for="black_tea">홍차</label>
+        <input type="radio" name="tea" id="oolong_tea" value="tea_oolong">
+        <label for="oolong_tea">우롱차</label>
+        <hr>
+        <input type="radio" name="snack" id="cookie" value="snack_cookie">
+        <label for="cookie">쿠키</label>
+        <input type="radio" name="snack" id="cake" value="snack_cake">
+        <label for="cake">케이크</label>
+        <input type="radio" name="snack" id="ice_cream" value="snack_ice_cream">
+        <label for="ice_cream">아이스크림</label>
+
+        <h2>여러개 중 다중 선택</h2>
+        <input type="checkbox" name="interest" id="sports" value="interest_sports">
+        <label for="sports">스포츠</label>
+        <input type="checkbox" name="interest" id="music" value="interest_music">
+        <label for="music">음악</label>
+        <input type="checkbox" name="interest" id="travel" value="interest_travel">
+        <label for="travel">여행</label>
+        <hr>
+        <input type="checkbox" name="hobby" id="reading" value="hobby_reading">
+        <label for="reading">독서</label>
+        <input type="checkbox" name="hobby" id="cooking" value="hobby_cooking">
+        <label for="cooking">요리</label>
+        <input type="checkbox" name="hobby" id="gaming" value="hobby_gaming">
+        <label for="gaming">게임</label>
+        <hr>
+        <h2>풀다운 메뉴</h2>
+        <label for="country">국가 선택</label>
+        <select name="country" id="country">
+            <option value="kr">대한민국</option>
+            <option value="us">미국</option>
+            <option value="jp">일본</option>
+            <option value="cn">중국</option>
+        </select>
+        <label for="drink">좋아하는 음료</label>
+        <select name="drink" id="drink" multiple>
+            <option value="coffee">커피</option>
+            <option value="tea">차</option>
+            <option value="juice">주스</option>
+            <option value="water">물</option>
+            <option value="soda">탄산</option>
+            <option value="alcohol">술</option>
+        </select>
+
+        <progress value="50" max="100"></progress>
+        <meter value="75" min="0" max="100"></meter>
+        <progress value="25" max="100"></progress>
+        <meter value="40" min="0" max="100"></meter>
+    </body>
+</html>
