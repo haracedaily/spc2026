@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div { width: 100px; height: 100px; position: relative; color: white; }
+      .div1 { background-color: orange; z-index: 1; }
+      .div2 { background-color: red; z-index: 2; bottom:50px;}
+      .div3 { background-color: blue; z-index: 3; bottom:100px;}
+      .div4 { background-color: yellow; z-index: 4; color: black; bottom:150px;}
+    </style>
+  </head>
+  <body>
+    <h1>z-index 우선순위</h1>
+    <div class="div1">ORANGE</div>
+    <div class="div2">RED</div>
+    <div class="div3">BLUE</div>
+    <div class="div4">YELLOW</div>
+  </body>
+</html>

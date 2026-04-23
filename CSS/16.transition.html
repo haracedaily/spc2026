@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .square{
+            width:100px;
+            height:100px;
+            background-color:red;
+            transition-property: width, height, background-color;
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+             /* transition: width 0.5s cubic-bezier(0.1, 0.7, 1.0, 0.1), height 0.5s cubic-bezier(0.1, 0.7, 1.0, 0.1), background-color 0.5s cubic-bezier(0.1, 0.7, 1.0, 0.1); */
+        }
+        .square:hover{
+            width:200px;
+            height:200px;
+            background-color:blue;
+        }
+        .btn{
+            color:black;
+            transition-property: color;
+            transition-duration: 0.5s;
+        }
+        .btn:hover{
+            color:blue;
+        }
+        .image{
+            width:200px;
+            height:300px;
+            transition-property:transform;
+            transition-duration:1s;
+        }   
+        .image:hover{
+            transform:rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="square"></div>
+    <button class="btn">Hover me!</button>
+    <img src="images/cat1.jpg" class="image" alt="">
+</body>
+</html>
