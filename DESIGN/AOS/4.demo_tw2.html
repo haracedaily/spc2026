@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <title>Tailwind + AOS Scroll Demo</title>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+<!-- HERO -->
+<section class="h-screen flex flex-col items-center justify-center text-center">
+  <h1 class="text-5xl font-bold mb-6" data-aos="fade-down">
+    Scroll Animation Demo
+  </h1>
+  <p class="text-gray-400 text-lg" data-aos="fade-up" data-aos-delay="200">
+    TailwindCSS + AOS 조합
+  </p>
+</section>
+
+<!-- SECTION 1: Fade & Slide -->
+<section class="min-h-[800px] px-10 flex flex-col gap-20 justify-center">
+  <div data-aos="fade-right" class="text-3xl font-bold">
+    👉 Fade Right
+  </div>
+
+  <div data-aos="fade-left" class="text-3xl font-bold text-right">
+    👈 Fade Left
+  </div>
+
+  <div data-aos="fade-up" class="text-center text-3xl">
+    ⬆ Fade Up
+  </div>
+
+  <div data-aos="fade-down" class="text-center text-3xl">
+    ⬇ Fade Down
+  </div>
+</section>
+
+<!-- SECTION 2: Cards -->
+<section class="min-h-[900px] px-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+  <div data-aos="zoom-in" class="bg-white text-black p-6 rounded-xl shadow-xl">
+    <h2 class="text-xl font-bold mb-2">Zoom In</h2>
+    <p>카드 등장 애니메이션</p>
+  </div>
+
+  <div data-aos="flip-left" class="bg-white text-black p-6 rounded-xl shadow-xl">
+    <h2 class="text-xl font-bold mb-2">Flip</h2>
+    <p>뒤집히면서 등장</p>
+  </div>
+
+  <div data-aos="zoom-out" class="bg-white text-black p-6 rounded-xl shadow-xl">
+    <h2 class="text-xl font-bold mb-2">Zoom Out</h2>
+    <p>축소되면서 등장</p>
+  </div>
+</section>
+
+<!-- SECTION 3: Stagger -->
+<section class="min-h-[800px] px-10 flex flex-col gap-6 justify-center">
+  <h2 class="text-3xl mb-10" data-aos="fade-up">Stagger Animation</h2>
+
+  <div class="space-y-4">
+    <div data-aos="fade-up" data-aos-delay="100" class="bg-blue-500 p-4 rounded">Item 1</div>
+    <div data-aos="fade-up" data-aos-delay="200" class="bg-blue-500 p-4 rounded">Item 2</div>
+    <div data-aos="fade-up" data-aos-delay="300" class="bg-blue-500 p-4 rounded">Item 3</div>
+    <div data-aos="fade-up" data-aos-delay="400" class="bg-blue-500 p-4 rounded">Item 4</div>
+  </div>
+</section>
+
+<!-- SECTION 4: Parallax 느낌 -->
+<section class="min-h-[900px] flex flex-col justify-center items-center gap-10">
+
+  <div data-aos="fade-up" data-aos-duration="1500" class="text-4xl font-bold">
+    Slow Animation
+  </div>
+
+  <div data-aos="fade-up" data-aos-duration="3000" class="text-2xl text-gray-400">
+    더 느리게 등장
+  </div>
+
+</section>
+
+<!-- SECTION 5: 이미지 스타일 -->
+<section class="min-h-[900px] px-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+  <img 
+    src="https://picsum.photos/600/400" 
+    data-aos="fade-right"
+    class="rounded-xl shadow-xl"
+  />
+
+  <div data-aos="fade-left">
+    <h2 class="text-3xl mb-4">Image + Text</h2>
+    <p class="text-gray-400">
+      이미지와 텍스트가 서로 반대 방향에서 등장하는 패턴
+    </p>
+  </div>
+
+</section>
+
+<!-- SECTION 6: Scale + Hover -->
+<section class="min-h-[900px] flex justify-center items-center">
+
+  <div 
+    data-aos="zoom-in-up"
+    class="w-64 h-64 bg-purple-500 rounded-xl flex items-center justify-center text-2xl 
+           transform transition duration-500 hover:scale-110 hover:rotate-3"
+  >
+    Hover + AOS
+  </div>
+
+</section>
+
+<!-- SECTION 7: Massive Text -->
+<section class="min-h-[1000px] flex flex-col justify-center items-center gap-20">
+
+  <h1 data-aos="fade-up" class="text-6xl font-bold">BIG TITLE</h1>
+
+  <p data-aos="fade-up" data-aos-delay="300" class="text-gray-400 max-w-xl text-center">
+    스크롤을 내릴 때 자연스럽게 콘텐츠가 등장하도록 구성하면
+    훨씬 인터랙티브한 UX를 만들 수 있음
+  </p>
+
+</section>
+
+<!-- FOOTER -->
+<section class="h-[400px] flex items-center justify-center text-gray-500">
+  끝 👍
+</section>
+
+<script>
+  AOS.init({
+    duration: 1000,
+    once: false, // 다시 스크롤하면 재실행
+  });
+</script>
+
+</body>
+</html>

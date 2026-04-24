@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css" />
+  </head>
+  <body>
+    <h1>간단한 Alert 테스트</h1>
+    <button onclick="showAlert()">버튼1</button>
+    <button onclick="basicAlert()">버튼2</button>
+    <button onclick="confirmAlert()">버튼3</button>
+    <button onclick="inputPrompt()">버튼3</button>
+    <script>
+      function showAlert() {
+        // console.log("버튼 클릭 됨")
+        Swal.fire({
+          title: "The Internet?",
+          text: "That thing is still around?",
+          icon: "question", // success info warning question error
+          confirmButtonText: "chck",
+        });
+      }
+      function basicAlert() {
+        Swal.fire("안녕하세요", "이건 편하게하려고", "success", "sure");
+      }
+
+      function confirmAlert() {
+        Swal.fire({
+          title: "<strong>HTML <u>example</u></strong>",
+          icon: "info",
+          html: `
+    You can use <b>bold text</b>,
+    <a href="#" autofocus>links</a>,
+    and other HTML tags
+  `,
+          showCloseButton: true,
+          showCancelButton: true,
+          focusConfirm: false,
+          confirmButtonText: "ok",
+          confirmButtonAriaLabel: "Thumbs up, great!",
+          cancelButtonText: "no",
+          cancelButtonAriaLabel: "Thumbs down",
+        }).then((res)=>{
+          // console.log(res)
+          if(res.isConfirmed){
+            Swal.fire("삭제완료","항목이 삭제되었습니다.")
+          }else if(res.isDismissed){
+            Swal.fire("삭제취소","항목이 그대로 유지됩니다.")
+          }
+        });
+      }
+
+      function inputPrompt(){
+        Swal.fire({
+          title:"ddd",
+          input:"text",
+          inputPlaceholder:"edit",
+          showCancelButton:true,
+          confirmButtonText:"제출",
+          cancelButtonText:"취소"
+        }).then(res=>{if(res.isConfirmed&&res.value){
+          Swal.fire(`입력한 값은 ${res.value} 입니다.`)
+        }})
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailwind + AOS Demo</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    body { height: 4000px; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+  <!-- HERO -->
+  <section class="h-screen flex flex-col justify-center items-center text-center">
+    <h1 class="text-5xl font-bold mb-6" data-aos="fade-down">Scroll Animation Demo</h1>
+    <p class="text-gray-400" data-aos="fade-up" data-aos-delay="200">스크롤을 내려보면 다양한 효과가 등장합니다</p>
+  </section>
+
+  <!-- FADE SECTION -->
+  <section class="py-32">
+    <div class="max-w-5xl mx-auto space-y-20">
+
+      <div class="p-10 bg-gray-800 rounded-2xl" data-aos="fade-right">
+        <h2 class="text-3xl mb-4">Fade Right</h2>
+        <p>오른쪽에서 등장하는 애니메이션</p>
+      </div>
+
+      <div class="p-10 bg-gray-800 rounded-2xl" data-aos="fade-left">
+        <h2 class="text-3xl mb-4">Fade Left</h2>
+        <p>왼쪽에서 등장하는 애니메이션</p>
+      </div>
+
+      <div class="p-10 bg-gray-800 rounded-2xl" data-aos="fade-up">
+        <h2 class="text-3xl mb-4">Fade Up</h2>
+        <p>아래에서 위로 등장</p>
+      </div>
+
+      <div class="p-10 bg-gray-800 rounded-2xl" data-aos="fade-down">
+        <h2 class="text-3xl mb-4">Fade Down</h2>
+        <p>위에서 아래로 등장</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ZOOM SECTION -->
+  <section class="py-32 bg-gray-800">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div class="p-8 bg-gray-700 rounded-xl" data-aos="zoom-in">
+        Zoom In
+      </div>
+
+      <div class="p-8 bg-gray-700 rounded-xl" data-aos="zoom-in-up">
+        Zoom In Up
+      </div>
+
+      <div class="p-8 bg-gray-700 rounded-xl" data-aos="zoom-in-down">
+        Zoom In Down
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FLIP SECTION -->
+  <section class="py-32">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div class="p-10 bg-indigo-500 rounded-xl" data-aos="flip-left">Flip Left</div>
+      <div class="p-10 bg-pink-500 rounded-xl" data-aos="flip-right">Flip Right</div>
+      <div class="p-10 bg-green-500 rounded-xl" data-aos="flip-up">Flip Up</div>
+
+    </div>
+  </section>
+
+  <!-- STAGGER SECTION -->
+  <section class="py-32 bg-gray-800">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-4xl mb-10 text-center" data-aos="fade-up">Stagger Animation</h2>
+
+      <div class="space-y-6">
+        <div class="p-6 bg-gray-700 rounded" data-aos="fade-right" data-aos-delay="100">Item 1</div>
+        <div class="p-6 bg-gray-700 rounded" data-aos="fade-right" data-aos-delay="200">Item 2</div>
+        <div class="p-6 bg-gray-700 rounded" data-aos="fade-right" data-aos-delay="300">Item 3</div>
+        <div class="p-6 bg-gray-700 rounded" data-aos="fade-right" data-aos-delay="400">Item 4</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARALLAX 느낌 -->
+  <section class="h-screen flex items-center justify-center bg-fixed bg-center bg-cover" 
+    style="background-image:url('https://picsum.photos/1920/1080');">
+    <h2 class="text-5xl font-bold" data-aos="zoom-in">Parallax 느낌</h2>
+  </section>
+
+  <!-- FINAL -->
+  <section class="py-32 text-center">
+    <h2 class="text-4xl" data-aos="fade-up">끝!</h2>
+    <p class="text-gray-400 mt-4" data-aos="fade-up" data-aos-delay="200">더 추가해서 확장 가능</p>
+  </section>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: false
+    });
+  </script>
+
+</body>
+</html>
