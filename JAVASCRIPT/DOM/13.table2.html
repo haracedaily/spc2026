@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        td{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+  
+    <table>
+        <tbody id="tbody1">
+            <tr>
+                <td>셀1</td>
+                <td>셀2</td>
+                <td>셀3</td>
+            </tr>
+            <tr>
+                <td>셀4</td>
+                <td>셀5</td>
+                <td>셀6</td>
+            </tr>
+            <tr>
+                <td>셀7</td>
+                <td>셀8</td>
+                <td>셀9</td>
+            </tr>
+        </tbody>
+    </table>
+  
+    <table>
+        <tbody id="tbody2">
+            <tr>
+                <td>셀1</td>
+                <td>셀2</td>
+            </tr>
+            <tr>
+                <td>셀3</td>
+                <td>셀4</td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="changeOddCells()">홀수셀 색상 변경</button>
+    <button onclick="changeEvenCells()">짝수셀 색상 변경</button>
+    <script>
+        const tbody1 = document.getElementById('tbody1');
+        // const tbody2 = document.getElementById('tbody2');
+        function changeOddCells(){
+            const r = Math.floor(Math.random()*256);
+            const g = Math.floor(Math.random()*256);
+            const b = Math.floor(Math.random()*256);
+            let rHex = r.toString(16).padStart(2,'0');
+            let gHex = g.toString(16).padStart(2,'0');
+            let bHex = b.toString(16).padStart(2,'0');
+            const finalColor = '#'+rHex+gHex+bHex;
+            // let idx = 1;
+            // for(let i = 0; i<tbody.childElementCount; i++){
+            //     for(let j=0;j<tbody.children[i].childElementCount;j++){
+            //         if(idx%2==1){
+            //             tbody.children[i].children[j].style.backgroundColor=finalColor;
+            //         }
+            //         idx++;
+            //     }
+            // }
+            const cells = tbody1.getElementsByTagName('td');
+            Array.from(cells).forEach((ele,idx)=>{
+                if(idx%2==0){
+                    ele.style.backgroundColor=finalColor;
+                }
+            });
+
+        }
+        function changeEvenCells(){
+            const r = Math.floor(Math.random()*256);
+            const g = Math.floor(Math.random()*256);
+            const b = Math.floor(Math.random()*256);
+            let rHex = r.toString(16).padStart(2,'0');
+            let gHex = g.toString(16).padStart(2,'0');
+            let bHex = b.toString(16).padStart(2,'0');
+            const finalColor = '#'+rHex+gHex+bHex;
+            // let idx = 1;
+            // for(let i = 0; i<tbody.childElementCount; i++){
+            //     for(let j=0;j<tbody.children[i].childElementCount;j++){
+            //         if(idx%2==0){
+            //             tbody.children[i].children[j].style.backgroundColor=finalColor;
+            //         }
+            //         idx++;
+            //     }
+            // }
+            const cells = document.querySelectorAll('#tbody2 td');//Node 시리즈
+            // 굳이 배열로 변환하지 않아도 forEach 사용 가능함.
+            // DOM Contents와 Nodes의 차이
+            for(let i=0; i<cells.length;i++){
+                if(i%2==1){
+                    cells[i].style.backgroundColor=finalColor;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

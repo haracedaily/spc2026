@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #mydiv {
+        width: 200px;
+        height: 200px;
+        background-color: lightsalmon;
+      }
+      .none{
+        display:none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Show/Hide</h1>
+    <button onclick="showhide_toggle()">숨겨진 요소 토글</button>
+    <div id="mydiv" class="none">이것은 숨겨진 Div요소입니다.</div>
+    <dialog id="mydia">
+      이것은 숨겨진 dialog입니다.
+      <form method="dialog">
+        <div class="btn-group">
+            <button value="confirm">check</button>
+            <button value="cancel">cancel</button>
+            <button value="delete">delete</button>
+        </div>
+      </form>
+    </dialog>
+    <script>
+      function showhide_toggle() {
+        const div = document.querySelector("#mydiv");
+        const dialog = document.querySelector("#mydia");
+        // dialog.showModal();
+        // div.style.display=="block"?div.style.display="none":div.style.display="block";
+        // DOM입장에선 style에 들어간 none을 인식 못함
+        // div.style.display="block";
+        div.classList.toggle("none");
+        // div.attributes.removeNamedItem("hidden");
+        // id에 style 먹여두면 class로 추가제어 하려고 해도 당연히 안 먹힘
+      }
+    </script>
+  </body>
+</html>
