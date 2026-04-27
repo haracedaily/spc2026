@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>구구단</title>
+  </head>
+  <body>
+    <h1>구구단 출력기</h1>
+    <input type="text" placeholder="단을 입력하세요" name="" id="input" onkeyup="mul()" />
+    <button onclick="mul()" >출력하기</button>
+    <div id="res">결과 출력되는 곳</div>
+    <script>
+      function mul() {
+        const res = document.getElementById("res");
+        const userInput = document.getElementById("input");
+        if (userInput.value&&chckType(userInput.value)) {
+            res.innerHTML = "";
+            const userInputValueNumber = parseInt(userInput.value);
+            res.innerHTML="<h3>"+userInputValueNumber+"단</h3><br>";
+          for (let i = 1; i <= 9; i++) {
+            res.innerText += `${userInputValueNumber} x ${i} = ${userInputValueNumber * i}\n`;
+          }
+        }else{
+            res.innerHTML="<h3>입력은 양수만 해주세요</h3>"
+            return;
+        }
+      }
+      
+      function chckType(val){
+        return /^\d+$/.test(val);
+      }
+    </script>
+  </body>
+</html>

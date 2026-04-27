@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <h1>나의 헤딩</h1>
+    <p>여기는 나의 문장이 있는 곳</p>
+    <div id="output" data-text="동적으로 컨텐츠를 채울 곳">동적으로 컨텐츠를 채울 곳</div>
+    <p>여기는 나의 두번째 문장이 있는 것</p>
+    <button onclick="sayHello2()">여기는 나의 버튼</button>
+    <script>
+        function sayHello(){
+            console.log('sayhello');
+            const myoutput = document.getElementById('output');
+            console.log(myoutput);
+            myoutput.textContent="나의 새로운 동적 문장";
+        }
+        function sayHello2(){
+            const myoutput = document.getElementsByTagName('p');
+            console.log(myoutput);
+            for( ele of Array.from(myoutput))
+            ele.textContent="나의 새로운 동적 문장2";
+
+            console.log(myoutput[0])
+
+            // myoutput[0].textContent = "나의 새로운 동적 문장2"
+            // myoutput[1].textContent = "나의 새로운 동적 문장2"
+            // for(let i = 0; i < myoutput.length; i++){}
+        }
+        function sayHello3() {
+            console.log("sayhello");
+            const myoutput = document.getElementsByTagName('p');
+            console.log(myoutput[0]); // 해당 DOM들의 (즉 해당 p들의) 첫번째 멤버
+            console.log(myoutput[1]); // 두번째 멤버/요소(element)
+            myoutput[1].textContent = '나의 새로운 동적 문장2'
+        }
+        function sayHello4() {
+            console.log("sayhello");
+            const myoutput = document.getElementsByClassName("text");
+            console.log(myoutput);
+            console.log(myoutput[0]); // 해당 DOM들의 (즉 해당 p들의) 첫번째 멤버
+            console.log(myoutput[1]); // 두번째 멤버/요소(element)
+            myoutput[0].textContent = '나의 새로운 동적 문장2'
+        }
+    </script>
+</body>
+</html>
