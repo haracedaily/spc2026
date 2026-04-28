@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #countDiv {
+        width: 150px;
+        padding: 20px;
+        margin: 10px;
+      }
+      p {
+        margin: 0 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>카운트다운</h1>
+    <input
+      type="number"
+      name=""
+      id="timeInput"
+      placeholder="초를 입력해주세요"
+      min="1"
+    />
+    <button onclick="startTimer()" id="startBtn">시작</button>
+    <div id="countDiv">
+      <p id="timerDisplay">
+        <!-- 카운트다운을 출력할 곳 -->
+      </p>
+    </div>
+    <script>
+      const timer = document.getElementById("timerDisplay");
+      const cntDiv = document.getElementById("countDiv");
+      
+
+      function startTimer() {
+        let sTime = parseInt(document.getElementById("timeInput").value);
+        if (!sTime) {
+          timer.textContnent = "시간을 입력해주세요";
+          return;
+        }
+
+        const timerP = document.createElement('p');
+        cntDiv.appendChild(timerP);
+
+        let random = () => parseInt(Math.random() * 256);
+        let R = random().toString(16).padStart(2, "0");
+        let G = random().toString(16).padStart(2, "0");
+        let B = random().toString(16).padStart(2, "0");
+        cntDiv.style.border = "1px solid #" + R + G + B;
+
+        R = random(). toString(16).padStart(2, "0");
+        G = random().toString(16).padStart(2, "0");
+        B = random().toString(16).padStart(2, "0");
+        timerP.style.border = "1px solid #" + R + G + B;
+        timerP.textContent = sTime + "s !";
+        console.log(sTime);
+        // Interval Start
+        let timeInterval = setInterval(() => {
+          R = random().toString(16).padStart(2, "0");
+          G = random().toString(16).padStart(2, "0");
+          B = random().toString(16).padStart(2, "0");
+          cntDiv.style.border = "1px solid #" + R + G + B;
+
+          R = random().toString(16).padStart(2, "0");
+          G = random().toString(16).padStart(2, "0");
+          B = random().toString(16).padStart(2, "0");
+          timerP.style.border = "1px solid #" + R + G + B;
+
+          sTime--;
+          timerP.textContent = sTime + "s !";
+          console.log(sTime);
+          if (!sTime) {
+            timerP.textContent = "🎆Boomb !";
+            clearInterval(timeInterval);
+          }
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>

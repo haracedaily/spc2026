@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        console.log("나는 헤더에 있는 스크립트 블럭");
+    </script>
+    <script defer>
+        console.log("나는 헤더에 있는 defer 스크립트 블럭");
+    </script>
+</head>
+<body>
+    <script>
+        console.log("1. 나는 바디 바로 아래 있는 스크립트 블럭")
+    </script>
+    <h1 id="title">마이 타이틀</h1>
+    <script>
+        window.onload = () =>{console.log(`4. 모든리소스(html/css/js/img 등)이 전부다 로딩 완료 됨`);}
+        document.addEventListener("DOMContentLoaded",()=>{
+            console.log("3.DOM요소 로딩이 완료되면 바로 호출됨");
+        })
+        </script>
+        <script>
+
+            console.log("2. 맨 아래 있는 호출")
+        </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1 {
+        text-align: center;
+      }
+      section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #wordArt {
+        display: flex;
+        justify-content: space-around;
+        width: 400px;
+      }
+      #chooseBtn::after {
+        content: attr(data-text) " "; /* 공백 꼭 추가 */
+        white-space: pre;
+        position:absolute;
+        top:0;
+        left:110%;
+      }
+       #chooseBtn{
+        position:relative;
+       }
+    </style>
+  </head>
+  <body>
+    <h1>Word Hangman</h1>
+    <main>
+      <section>
+        <article id="wordArt"></article>
+        <p>남은 기회 : <span id="remainCnt">6</span></p>
+        <p>사용한 글자 : <span id="usedVerb"></span></p>
+        <input type="text" name="" id="wordIpt" autofocus/>
+        <button id="chooseBtn" data-text="" >글자 맞추기</button>
+        <button id="newBtn">새 게임</button>
+        <div id="result"></div>
+      </section>
+    </main>
+    <script>
+      let word = "";
+      let remain = 20;
+      let usedVerbAry = [];
+      let wordAry=[];
+      const wordArt = document.getElementById("wordArt");
+      const remainCnt = document.getElementById("remainCnt");
+      const usedVerb = document.getElementById("usedVerb");
+
+      // DOM Load이벤트
+      document.addEventListener("DOMContentLoaded", async () => {
+        await postData();
+        document
+          .getElementById("newBtn")
+          .addEventListener("click", async () => await postData());
+        document
+          .getElementById("chooseBtn")
+          .addEventListener("click", guessWord);
+        document.getElementById("wordIpt").addEventListener("keydown", () => {
+            if(event.key==="Enter"||event.code==="Enter"||event.keyCode==13){
+               document.getElementById("chooseBtn").click();
+            }
+            if(!(event.key>='a'&&event.key<='z')){
+                event.preventDefault();
+            }
+          if (event.target.value.length > 0) event.target.value = "";
+        });
+      });
+window.addEventListener('keydown',()=>{
+
+})
+      //   랜덤 단어
+      async function postData() {
+        const res = await fetch("https://api.datamuse.com/words?sp=?????");
+        const data = await res.json();
+        usedVerbAry = [];
+        remain = 20;
+        wordArt.innerHTML="";
+        usedVerb.textContent="";
+        remainCnt.textContent=remain;
+        word = data[Math.floor(Math.random() * data.length)].word;
+        wordAry = word.split("");
+        for (let i = 0; i < word.length; i++) {
+          let span = document.createElement("span");
+          span.textContent = "_";
+          wordArt.appendChild(span);
+        }
+      }
+
+      //   단어추론
+      function guessWord() {
+        let guess = document.getElementById("wordIpt").value;
+        if(!guess){
+            document.getElementById("chooseBtn").dataset.text =
+            "공백은 사용불가능합니다";
+          return;
+        }
+        if (usedVerbAry.includes(guess)) {
+          document.getElementById("chooseBtn").dataset.text =
+            "이미 사용된 단어입니다.";
+          return;
+        }
+                  document.getElementById("chooseBtn").dataset.text ="";
+        usedVerbAry.push(guess);
+        usedVerb.textContent = `${usedVerbAry.join(", ")}`;
+        if (wordAry.includes(guess)) {
+            wordAry.forEach((ele,idx)=>{
+                if(ele==guess)wordArt.childNodes[idx].textContent=guess;
+            })
+        } else {
+          remain--;
+          remainCnt.textContent=remain;
+        }
+        document.getElementById("wordIpt").focus();
+      }
+    </script>
+  </body>
+</html>

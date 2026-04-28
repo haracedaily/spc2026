@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>숫자 맞추기 게임</h1>
+    <h2>1~100까지의 숫자를 맞춰보세요.</h2>
+    <input type="number" name="" id="guessNumber" placeholder="숫자를 입력하세요">
+    <button id="guessBtn" onclick="guessNumber()">Guess</button>
+    <button id="reGame" onclick="reGame()">New Game</button>
+    <div id="resultDiv">
+        <div id="cntDiv">카운팅 : <span id="cntSpan"></span></div>
+        <div id="result"></div>
+    </div>  
+    <script>
+        let randomNumber = parseInt(Math.floor(Math.random()*100)+1);
+        const result = document.getElementById("result");
+        const cntSpan = document.getElementById("cntSpan");
+        let cnt = 0;
+        function guessNumber(){
+            const guess = document.getElementById("guessNumber").value;
+            if(!guess){
+                return;
+            }
+            cnt++;
+            cntSpan.textContent=cnt;
+            guess>randomNumber?result.innerHTML+=`${cnt}회차 : ${guess}보다 더 작은 숫자입니다.<br>`:(guess<randomNumber?result.innerHTML+=`${cnt}회차 : ${guess}보다 더 큰 숫자입니다.<br>`:result.innerHTML+=`${cnt}회차 : ${guess} 정답입니다.`);
+        }
+        function reGame(){
+            cnt=0;
+            randomNumber = parseInt(Math.floor(Math.random()*100)+1);
+            cntSpan.textContent=cnt;
+            result.textContent="";
+        }
+    </script>
+</body>
+</html>

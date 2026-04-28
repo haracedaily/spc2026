@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #mybtn{
+            width:200px;
+            height:100px;
+            background-color: lightblue;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="mybtn">클릭하시오</div>
+    <script>
+        //DOM 요소 지정=> 이벤트 추가 => 핸들러 구현
+        document.getElementById("mybtn").addEventListener("click",()=>{
+            console.log("클릭")
+        })
+        document.getElementById("mybtn").addEventListener("dblclick",()=>{
+            console.log("double클릭")
+        })
+        document.getElementById("mybtn").addEventListener("mousedown",()=>{
+            console.log("마우스 누름")
+            console.log(event);
+            switch(event.button){
+                case 0: console.log("좌클");break;
+                case 1: console.log("휠클릭");break;
+                case 2: console.log("우클릭");break;
+                default:console.log("3버튼 외 클릭");//보통 dpi 조정 버튼이 대표적
+            }
+        })
+    </script>
+</body>
+</html>
