@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #sizeInfo {
+        font-size: 18px;
+        line-height: 1.6;
+        background-color: #ccc;
+        border-radius: 20px;
+        padding : 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>당신의 화면 정보는 다음과 같습니다.</h1>
+    <div id="sizeInfo"></div>
+    <script>
+      function updateWindowInfo() {
+        const innerWidth = window.innerWidth;
+        const innerHeight = window.innerHeight;
+        const outerWidth = window.outerWidth;
+        const outerHeight = window.outerHeight;
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+
+        const sizeInfo = document.getElementById("sizeInfo");
+        sizeInfo.innerHTML = `<strong>뷰포트(viewPort) = window.inner</strong><hr>
+        Width : ${innerWidth} px <br>
+        Height : ${innerHeight} px <br>
+        <strong>브라우저 크기 = window.outer</strong><hr>
+        Width : ${outerWidth} px <br>
+        Height : ${outerHeight} px <br>
+        <strong>화면 해상도</strong><hr>
+        Width : ${screenWidth} px <br>
+        Hegith : ${screenHeight} px`;
+      }
+      window.addEventListener("resize", (event) => {
+        updateWindowInfo();
+      });
+      setTimeout(() => {
+          updateWindowInfo();  
+      }, 50);
+    //   1회 수동 호출
+    </script>
+  </body>
+</html>

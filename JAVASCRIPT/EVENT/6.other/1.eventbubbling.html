@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #grandparent{
+            padding: 50px;
+            background-color: lightgray;
+        }
+        #parent{
+            padding:50px;
+            background-color: lightblue;
+        }
+        #child{
+            padding:50px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <div id="grandparent">
+        grandParent
+        <div id="parent">
+            Parent
+            <div id="child">
+                Child
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // mouseenter mouseleave blur focus 
+        // 1.캡쳐링 : window => document => html => body => outer => inner => target
+        // 2.타겟 : target
+        // 3.버블링 : target=>inner=>outer=>body->html=>document=>window
+        document.addEventListener("DOMContentLoaded",()=>{
+            const child = document.getElementById("child");
+            const parent = document.getElementById("parent");
+            const grandparent = document.getElementById("grandparent");
+
+            child.addEventListener("click",(event)=>{
+                alert(`Child click`);
+                // 이벤트 버블링이 일어나지 못하게 정지
+                event.stopPropagation();
+            });
+            parent.addEventListener("click",()=>{
+                alert(`parent click`);
+            });
+            grandparent.addEventListener("click",()=>{
+                alert(`Grandparent click`);
+            });
+
+
+
+        })
+    </script>
+</body>
+</html>

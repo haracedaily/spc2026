@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>웹캠 접근하기</h1>
+    <video src="" id="webcam" autoplay playsinline></video>
+    <!-- autoplay 자동 플레이 playsinline : 전체화면 말고  -->
+    <p id="error"></p>
+
+    <script>
+        const video = document.getElementById("webcam")
+        const err = document.getElementById("error")
+
+        // 브라우저가 OS에게 카메라 정보 받아오기
+        navigator.mediaDevices.getUserMedia({video:true}).then(stream => {
+            video.srcObject = stream;
+        }).catch(error=>
+            err.textContent=`${error.message}`
+        )
+
+    </script>
+</body>
+</html>
