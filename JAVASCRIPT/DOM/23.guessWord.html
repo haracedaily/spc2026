@@ -44,13 +44,13 @@
       </section>
     </main>
     <script>
-      let word = "";
-      let remain = 20;
-      let usedVerbAry = [];
-      let wordAry=[];
-      const wordArt = document.getElementById("wordArt");
-      const remainCnt = document.getElementById("remainCnt");
-      const usedVerb = document.getElementById("usedVerb");
+      let word = ""; // 정답 단어
+      let remain = 20; // 남은 기회
+      let usedVerbAry = []; // 사용한 글자 배열
+      let wordAry=[]; // 정답 글자 배열
+      const wordArt = document.getElementById("wordArt"); //단어 아티클
+      const remainCnt = document.getElementById("remainCnt"); //남은기회
+      const usedVerb = document.getElementById("usedVerb"); //사용한 글자
 
       // DOM Load이벤트
       document.addEventListener("DOMContentLoaded", async () => {
@@ -71,9 +71,7 @@
           if (event.target.value.length > 0) event.target.value = "";
         });
       });
-window.addEventListener('keydown',()=>{
 
-})
       //   랜덤 단어
       async function postData() {
         const res = await fetch("https://api.datamuse.com/words?sp=?????");
