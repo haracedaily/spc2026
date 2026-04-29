@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch</title>
+
+<style>
+    body {
+        background: #0d0f14;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Courier New', monospace;
+        color: #fff;
+    }
+
+    .stopwatch {
+        width: 350px;
+        background: #000;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        text-align: center;
+    }
+
+    .time {
+        font-size: 48px;
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        background: #2b2b2b;
+        color: #fff;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #444;
+    }
+
+    #stopBtn {
+        color: #ff4d4d;
+        border: 1px solid #ff4d4d;
+    }
+
+    .laps {
+        background: #111;
+        max-height: 150px;
+        overflow-y: auto;
+        text-align: left;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .lap-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px solid #333;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="stopwatch">
+    <div class="time" id="display">00:00:00.00</div>
+
+    <div class="buttons">
+        <button id="lapBtn">랩</button>
+        <button id="startBtn">시작</button>
+        <button id="stopBtn">중지</button>
+        <button id="resetBtn">리셋</button>
+    </div>
+
+    <div class="laps" id="laps"></div>
+</div>
+
+<script>
+    let startTime = 0;
+    let elapsed = 0;
+    let timer = null;
+    let running = false;
+    let lapCount = 0;
+
+    const display = document.getElementById("display");
+    const laps = document.getElementById("laps");
+
+    function formatTime(ms) {
+        let total = ms;
+
+        let min = Math.floor(total / 60000);
+        let sec = Math.floor((total % 60000) / 1000);
+        let msPart = Math.floor((total % 1000) / 10);
+
+        return (
+            String(min).padStart(2, '0') + ":" +
+            String(sec).padStart(2, '0') + "." +
+            String(msPart).padStart(2, '0')
+        );
+    }
+
+    function update() {
+        elapsed = Date.now() - startTime;
+        console.log(elapsed);
+        console.log(Date.now());
+        display.textContent = formatTime(elapsed);
+    }
+
+    document.getElementById("startBtn").onclick = () => {
+        if (!running) {
+            running = true;
+            startTime = Date.now() - elapsed;
+            timer = setInterval(update, 10);
+        }
+    };
+
+    document.getElementById("stopBtn").onclick = () => {
+        running = false;
+        clearInterval(timer);
+    };
+
+    document.getElementById("resetBtn").onclick = () => {
+        running = false;
+        clearInterval(timer);
+        elapsed = 0;
+        display.textContent = "00:00:00.00";
+        laps.innerHTML = "";
+        lapCount = 0;
+    };
+
+    document.getElementById("lapBtn").onclick = () => {
+        if (!running) return;
+
+        lapCount++;
+        const div = document.createElement("div");
+        div.className = "lap-item";
+        div.innerHTML = `<span>랩 ${lapCount}</span><span>${formatTime(elapsed)}</span>`;
+        laps.prepend(div);
+    };
+</script>
+
+</body>
+</html>

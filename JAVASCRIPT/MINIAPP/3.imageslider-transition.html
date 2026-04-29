@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1 {
+        text-align: center;
+      }
+      .slider {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        text-align: center;
+        max-width: 600px;
+        align-items: center;
+      }
+      .slider img {
+        max-width: 100%;
+        height: 300px;
+      }
+      .active {
+        opacity: 1;
+        transform:translateX(var(--ts));
+      }
+      .buttons {
+        margin-top: 10px;
+      }
+      button {
+        padding: 10px;
+        font-size: 16px;
+      }
+      
+      #image-slide{
+        position:relative;
+        width:100%;
+        height:300px;
+      }
+      img{
+        transition-duration:400ms;
+        transition-property: all;
+        opacity:0;
+        position:absolute;
+        --ts:-200px;
+      }
+      .left{
+        left:-100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>이미지 슬라이더</h1>
+    <div class="slider">
+        <div id="image-slide">
+            <img src="./images/cat1.jpg" alt="" class="active" />
+            <img src="./images/cat2.jpg" alt="" class=""/>
+            <img src="./images/cat3.jpg" alt="" class=""/>
+        </div>
+      <div class="filename" id="filename">images/cat1.jpg</div>
+      <div class="buttons">
+        <button id="prevBtn" onclick="prevImg()" onmouseover="pause()" onmouseleave="restart()">이전</button>
+        <button id="nextBtn" onclick="nextImg()" onmouseover="pause()" onmouseleave="restart()">다음</button>
+      </div>
+    </div>
+    <script>
+        let slider;
+        let idx=0;
+        const fileName = document.getElementById("filename");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        document.addEventListener("DOMContentLoaded",()=>{
+            slider = setInterval(nextImg,800);
+        });
+            function restart(){
+                slider = setInterval(nextImg,800);
+            }
+            function pause(){
+                clearInterval(slider);
+            }
+
+            function prevImg(){
+                let active = document.querySelector(".active");
+                active.classList.toggle("active");
+                let next = active.previousElementSibling;
+                if(!next)next=document.querySelectorAll('img')[2];
+                next.classList="left";
+                next.style="--ts:200px";
+                console.log(next);
+                next.classList.toggle("active");
+                let fileNm = next.src;
+                fileName.textContent = next.src.split("/").slice(-2).join("/");
+            }
+
+            function nextImg(){
+                let active = document.querySelector(".active");
+                active.classList.toggle("active");
+                let next = active.nextElementSibling;
+                if(!next)next=document.querySelector('img');
+                next.classList="";
+                next.classList.toggle("active");
+                next.style="--ts:-200px";
+                let fileNm = next.src;
+                fileName.textContent = next.src.split("/").slice(-2).join("/");
+            }
+    </script>
+  </body>
+</html>

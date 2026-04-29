@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        & .day {
+          height: 50px;
+          border: 1px solid black;
+        }
+      }
+
+      ul li:hover {
+        cursor: pointer;
+        color: lightcoral;
+      }
+      #calendar-wrapper {
+        display: flex;
+        flex-direction: column;
+        background-color: aliceblue;
+      }
+      #calendar-header {
+        margin-top: 5px;
+        height: 100px;
+        background: linear-gradient(
+          -45deg,
+          #ebcc6f 0%,
+          #fff5d7 5%,
+          #fffec2 10%,
+          #fff4d1 90%,
+          #ebcc6f
+        );
+        box-shadow: 0 3px 4px black;
+      }
+      #main-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>오늘 할일 (TODO 리스트)</h1>
+    <input type="text" name="" id="new-todo" placeholder="할일 입력" />
+    <button id="add-todo">추가</button>
+    <div id="main-wrapper">
+      <div id="calendar-wrapper">
+        <div id="calendar-header"></div>
+        <div id="calendar"></div>
+      </div>
+      <ul id="todo-list">
+        <!-- 할일들이 표시될 곳 -->
+      </ul>
+    </div>
+
+    <script>
+      const newTodo = document.getElementById("new-todo");
+      const addBtn = document.getElementById("add-todo");
+      const todoList = document.getElementById("todo-list");
+      const calendar = document.getElementById("calendar");
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      const currentDate = new Date().getDate();
+      const firstDay = new Date(2026, currentMonth, 1).getDay();
+      const lastDate = new Date(2026, currentMonth + 1, 0).getDate();
+
+      firstDraw();
+      console.log("??");
+      //달력 그리기
+      function firstDraw() {
+        console.log(lastDate);
+        console.log(firstDay);
+        let date = 1;
+        for (let i = 0; i < Math.ceil((lastDate + firstDay) / 7) * 7; i++) {
+          let div = document.createElement("div");
+          if (i >= firstDay && i < lastDate + firstDay) {
+            div.textContent = date;
+            date++;
+          }
+          console.log(i);
+          div.classList = "day";
+          if (
+            localStorage.getItem(
+              `${currentYear}-${currentMonth}-${i - firstDay + 1}0`,
+            )
+          )
+            div.style.backgroundColor = "lightblue";
+          calendar.appendChild(div);
+        }
+        let idx = 0;
+        let data = true;
+        while (data) {
+          data = localStorage.getItem(
+            `${currentYear}-${currentMonth}-${currentDate}${idx}`,
+          );
+          if (!data) break;
+          let li = document.createElement("li");
+
+          let checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.classList = idx;
+          console.log(idx);
+          li.appendChild(checkbox);
+
+          li.innerHTML += data;
+          li.addEventListener("click", () => {
+            if (li.style.textDecoration == "line-through") {
+              li.style.textDecoration = "";
+              li.style.color = "black";
+            } else {
+              li.style.color = "#aaa";
+              li.style.textDecoration = "line-through";
+            }
+          });
+          let btn = document.createElement("button");
+          btn.textContent = "삭제";
+          btn.addEventListener("click", () => {
+            li.remove();
+          });
+          li.appendChild(btn);
+          todoList.appendChild(li);
+          idx++;
+        }
+      }
+      //추가 이벤트
+      addBtn.addEventListener("click", () => {
+        let todo = newTodo.value;
+        if (!todo) {
+          return;
+        }
+        let li = document.createElement("li");
+        let cnt = todoList.childElementCount;
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList = cnt;
+        li.appendChild(checkbox);
+
+        li.innerHTML += todo;
+        li.addEventListener("click", () => {
+          if (li.style.textDecoration == "line-through") {
+            li.style.textDecoration = "";
+            li.style.color = "black";
+          } else {
+            li.style.color = "#aaa";
+            li.style.textDecoration = "line-through";
+          }
+        });
+        localStorage.setItem(
+          `${currentYear}-${currentMonth}-${currentDate}${cnt}`,
+          todo,
+        );
+        let btn = document.createElement("button");
+        btn.textContent = "삭제";
+        btn.addEventListener("click", () => {
+          li.remove();
+        });
+        li.appendChild(btn);
+        todoList.appendChild(li);
+      });
+      newTodo.addEventListener('keydown',(event)=>{
+        if(event.key=="Enter"||event.code=="Enter"||event.keyCode==16){
+            addBtn.click();
+        }
+      })
+
+    </script>
+  </body>
+</html>

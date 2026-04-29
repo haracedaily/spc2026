@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input{
+            padding:10px;
+            font-size:16px;
+        }
+        ul{
+            list-style:none;
+            padding:0;
+        }
+        li{
+            padding:5px;
+            font-size:18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>실시간 검색 필터</h1>
+    <input type="text" name="" id="searchInput">
+    <ul id="itemList">
+
+    </ul>
+    <script>
+        const fruit=["Apple","Banana","Orange","Strawberry","Grape","Pineapple","Mango","Watermelon","Peach","Cherry","Lemon","Lime","Blueberry","Raspberry","Pear","Kiwi","Papaya","Coconut","Pomegranate","Avocado"];
+        const itemList = document.getElementById("itemList");
+        const searchInput = document.getElementById("searchInput");
+        let debounce;
+          fruit.forEach(el=>{
+                    let li = document.createElement("li");
+                    li.textContent=el;
+                    itemList.appendChild(li);
+                })
+        searchInput.addEventListener("keydown",()=>{
+                itemList.innerHTML="";
+               if(searchInput.value==""){
+                fruit.forEach(el=>{
+                    let li = document.createElement("li");
+                    li.textContent=el;
+                    itemList.appendChild(li);
+                })
+            }else{
+                
+                let fruitAry = fruit.filter(el=>el.toLowerCase().includes(searchInput.value.toLowerCase()));
+                    fruitAry.forEach(el=>{
+                    let li = document.createElement("li");
+                    li.textContent=el;
+                    itemList.appendChild(li);
+                })
+            } 
+
+            
+        })
+
+        
+    </script>
+</body>
+</html>

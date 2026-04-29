@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>TTS 예제</h1>
+    <textarea name="" id="text" rows="4" cols="50">
+        Hello, This is a text-to-speech example
+    </textarea><br>
+    <div class="controls">
+        <select name="" id="voiceSelect">
+            <!-- 브라우저로 부터 음성 목록을 가져와서 출력할 곳 -->
+        </select>
+        <button id="speakBtn" onclick="speak()">읽어주기</button>
+    </div>
+    <script>
+        const textArea = document.getElementById("text");
+        const voiceBox = document.getElementById("voiceSelect");
+        const speakBtn = document.getElementById('speakBtn');
+
+        speakBtn.addEventListener('click',speak);
+
+        function speak(){
+            const selectedSpeech = voiceBox.value;
+            const selectedVoice = window.speechSynthesis.getVoice()[selectedSpeech];
+            const speech = new SpeechSynthesisUtterance(textArea.value);
+            speech.voice = selectedVoice;
+            window.speechSynthesis.speak(speech);
+        }
+        //Web Speech API를 사용
+        if('speechSynthesis' in window){
+            const updateVoices = async () => {
+
+                const voice =await window.speechSynthesis.getVoices();
+                voice.forEach(el=>{
+                    let option = document.createElement("option");
+                    option.value=el;
+                    option.text = `${el.name} (${el.lang})`
+                    voiceBox.appendChild(option);
+                })
+            }
+            
+            window.speechSynthesis.addEventListener('voiceschanged',updateVoices);
+            updateVoices();
+        }else{
+            alert('이 브라우저는 음성기능을 제공하지 않숩니다.')
+        }
+    </script>
+</body>
+</html>
