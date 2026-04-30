@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            border:1px solid black;
+
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 숙청 -->
+     <canvas id="myCanvas" width="400" height="300"></canvas>
+     <script>
+        const canvas = document.getElementById("myCanvas")
+        const context = canvas.getContext('2d');
+
+        context.beginPath();
+        context.arc(100,50,40,0,2*Math.PI);
+        context.moveTo(95,70);
+        context.arc(100,70,5,0,Math.PI);
+        context.moveTo(75,45);
+        context.arc(80,45,5,Math.PI,2*Math.PI);
+        context.moveTo(115,45);
+        context.arc(120,45,5,Math.PI,2*Math.PI);
+        context.stroke();
+        context.closePath();
+        
+        context.beginPath();
+        context.moveTo(300,100);
+        context.arc(250,100,50,0,2*Math.PI);
+        context.stroke();
+        context.closePath();
+        // 0 라디언은 오른쪽에서 출발
+        // 1/2 파이 라디언은 90도
+        //  파이 라디언은 180도
+        //  3/2 파이 라디언은 270도
+        //  2파이 라디언은 360도
+     </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 숙청 -->
+    <h1>Base Of Hackman</h1>
+    <canvas id="myCanvas" width="400" height="300"></canvas>
+    <div id="rule">
+        <ul>
+            <li>방향 변경은 90도 안에서 가능</li>
+            <li>상하좌우 벽에 부딪혔을때 해당 방향으로 추가적인 이동 불가</li>
+            <li>spaceBar를 통한 핵맨 Pause</li>
+        </ul>
+    </div>
+    <script>
+      const canvas = document.getElementById("myCanvas");
+      const context = canvas.getContext("2d");
+      let x = 20;
+      let y = 20;
+      let radius = 10;
+      let open = true;
+      let sDegree = (1 / 6) * Math.PI;
+      let dir = "right";
+      let distance = 2;
+      window.addEventListener("keydown", (event) => {
+        if ((dir=="left"||dir=="right")&& (event.key == "ArrowDown" || event.code == "ArrowDown" || event.keyCode == 40) ) {
+          dir = "down";
+          sDegree = (16 / 6) * Math.PI;
+        } else if ( (dir=="up"||dir=="down")&&(event.key == "ArrowRight" || event.code == "ArrowRight" || event.keyCode == 39) ) {
+            dir = "right";
+          sDegree = (1 / 6) * Math.PI;
+        } else if ( (dir=="left"||dir=="right")&& (event.key == "ArrowUp" || event.code == "ArrowUp" || event.keyCode == 38) ) {
+          dir = "up";
+          sDegree = (10 / 6) * Math.PI;
+        } else if ( (dir=="up"||dir=="down")&&(event.key == "ArrowLeft" || event.code == "ArrowLeft" || event.keyCode == 37 )) {
+          dir = "left";
+          sDegree = (7 / 6) * Math.PI;
+        } else if (  event.key == "Space" || event.code == "Space" || event.keyCode == 32 ) {
+          dir = "pause";
+        }
+      });
+      function drawPackman() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        if ( (dir == "right" && sDegree >= (1 / 6) * Math.PI) || (dir == "left" && sDegree >= (7 / 6) * Math.PI) || (dir == "up" && sDegree >= (10 / 6) * Math.PI + 0.1) || (dir == "down" && sDegree >= (16 / 6) * Math.PI + 0.1) ) {
+          open = true;
+        } else if ((dir == "right" && sDegree <= 0) || (dir == "left" && sDegree <= Math.PI + 0.1) || (dir == "up" && sDegree <= (3 / 2) * Math.PI + 0.1) || (dir == "down" && sDegree <= (15 / 6) * Math.PI + 0.1)) {
+          open = false;
+        }
+        switch (dir) {
+          case "left":
+            if (x > radius) x -= distance;
+            break;
+          case "right":
+            if (x < canvas.width - radius) x += distance;
+            break;
+          case "up":
+            if (y > radius) y -= distance;
+            break;
+          case "down":
+            if (y < canvas.height - radius) y += distance;
+            break;
+          default:
+            open=false; 
+            break;
+        }
+        open ? (sDegree -= (1 / 60) * Math.PI) : (sDegree += (1 / 60) * Math.PI);
+        context.beginPath();
+        context.lineWidth = 3;
+        context.moveTo(x, y);
+        dir != "up" && dir != "down" ? context.arc(x, y, radius, sDegree, 2 * Math.PI - sDegree) : context.arc(x, y, radius, sDegree, 3 * Math.PI - sDegree);
+        context.lineTo(x, y);
+        context.stroke();
+        context.fillStyle = "yellow";
+        context.fill();
+        context.closePath();
+        requestAnimationFrame(drawPackman);
+      }
+      drawPackman();
+    </script>
+  </body>
+</html>

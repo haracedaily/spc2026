@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            border:1px solid black;
+
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 숙청 -->
+     <canvas id="aniCanvas" width="400" height="300"></canvas>
+     <script>
+        const canvas = document.getElementById("aniCanvas")
+        const context = canvas.getContext('2d');
+
+        let x = 50;
+        let y = 50;
+        let radius = 10;
+        let colDir = true; // leftright 방향 키 true 기준 오른쪽 이동
+        let rowDir = true; // updown 방향 키 true 기준 아래쪽 이동
+        let xSpeed = 1;
+        let ySpeed = 1;
+        let xCon = true; // x-Condition => 증가/감소 키
+        let yCon = true; // y-Condition => 증가/감소 키
+
+        function drawBall(){
+            context.clearRect(0,0,canvas.width,canvas.height);
+            context.beginPath();
+            context.arc(x,y,radius,0,Math.PI*2);
+            context.fillStyle = "red";
+            context.fill();
+            context.closePath();
+            colDir?x+=xSpeed:x-=xSpeed;
+            rowDir?y+=ySpeed:y-=ySpeed;
+            if(xSpeed>30)xCon=false;
+            else if(xSpeed<2)xCon=true;
+            if(ySpeed>30)yCon=false;
+            else if(ySpeed<2)yCon=true;
+            if(x<radius){
+                colDir=true;
+                xCon?xSpeed++:xSpeed--;
+            }
+            else if(x>canvas.width-radius){
+                colDir = false;
+                xCon?xSpeed++:xSpeed--;
+            }
+            if(y<radius){
+                rowDir=true;
+                yCon?ySpeed++:ySpeed--;
+            }
+            else if(y>canvas.height-radius){
+                rowDir=false;
+                yCon?ySpeed++:ySpeed--;
+            }
+            requestAnimationFrame(drawBall);
+        }
+
+        drawBall();
+     </script>
+</body>
+</html>

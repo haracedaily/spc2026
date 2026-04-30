@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            border:1px solid black;
+
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 숙청 -->
+     <canvas id="graphCanvas" width="400" height="300"></canvas>
+     <script>
+        const canvas = document.getElementById("graphCanvas")
+        const context = canvas.getContext('2d');
+
+        const graphData = {
+            A:10,b:20,C:40,D:60,E:100
+        }
+
+        drawGraph(graphData)
+        function drawGraph(data){
+            context.clearRect(0,0,context.width,context.height);
+            const barWidth = 30;
+            const barHeightOffset = 20;
+
+            let x = 50;
+            for(let key in data){
+                context.fillStyle="blue";
+                const barHeight = data[key];
+                context.fillRect(x,canvas.height-barHeight-barHeightOffset,barWidth,barHeight);
+
+                context.fillStyle = "black";
+                context.fillText(key,x+barWidth/3,canvas.height-barHeightOffset/2);
+                x+= 50;
+            }
+        }
+        drawGraph();
+     </script>
+</body>
+</html>
