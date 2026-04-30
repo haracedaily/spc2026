@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hackman Upgrade</title>
+<style>
+  canvas { border: 1px solid black; }
+</style>
+</head>
+<body>
+
+<h1>Hackman Upgrade</h1>
+<canvas id="myCanvas" width="400" height="320"></canvas>
+<div>Score: <span id="score">0</span></div>
+
+<script>
+const canvas = document.getElementById("myCanvas");
+const context = canvas.getContext("2d");
+
+/* ===== 기존 변수 ===== */
+let x = 40;
+let y = 40;
+let radius = 12;
+let open = true;
+let sDegree = (1 / 6) * Math.PI;
+let dir = "right";
+let distance = 2;
+
+/* ===== 추가 ===== */
+const tileSize = 40;
+let score = 0;
+
+/* 0=길, 1=벽, 2=음식 */
+const map = [
+  [1,1,1,1,1,1,1,1,1,1],
+  [1,2,0,0,2,0,0,2,0,1],
+  [1,0,1,0,1,0,1,0,0,1],
+  [1,0,1,0,0,0,1,0,2,1],
+  [1,2,0,0,1,0,0,0,0,1],
+  [1,1,1,1,1,1,1,1,1,1],
+];
+
+/* 몬스터 */
+let monster = {
+  x: 6 * tileSize + tileSize/2,
+  y: 3 * tileSize + tileSize/2
+};
+
+/* ===== 입력 ===== */
+window.addEventListener("keydown", (event) => {
+  if ((dir=="left"||dir=="right")&& event.key==="ArrowDown") {
+    dir="down"; sDegree=(16/6)*Math.PI;
+  } else if ((dir=="up"||dir=="down")&& event.key==="ArrowRight") {
+    dir="right"; sDegree=(1/6)*Math.PI;
+  } else if ((dir=="left"||dir=="right")&& event.key==="ArrowUp") {
+    dir="up"; sDegree=(10/6)*Math.PI;
+  } else if ((dir=="up"||dir=="down")&& event.key==="ArrowLeft") {
+    dir="left"; sDegree=(7/6)*Math.PI;
+  } else if (event.key===" ") {
+    dir="pause";
+  }
+});
+
+/* ===== 충돌 체크 ===== */
+function isWall(nx, ny){
+  let tx = Math.floor(nx / tileSize);
+  let ty = Math.floor(ny / tileSize);
+  return map[ty][tx] === 1;
+}
+
+/* ===== 음식 ===== */
+function eatFood(){
+  let tx = Math.floor(x / tileSize);
+  let ty = Math.floor(y / tileSize);
+
+  if(map[ty][tx] === 2){
+    map[ty][tx] = 0;
+    score++;
+    document.getElementById("score").innerText = score;
+  }
+}
+
+/* ===== 몬스터 이동 ===== */
+function moveMonster(){
+  if(Math.random() < 0.02){
+    const dirs = [
+      [2,0],[-2,0],[0,2],[0,-2]
+    ];
+    let [dx,dy] = dirs[Math.floor(Math.random()*4)];
+
+    if(!isWall(monster.x+dx, monster.y+dy)){
+      monster.x += dx;
+      monster.y += dy;
+    }
+  }
+}
+
+/* ===== 충돌 ===== */
+function checkCollision(){
+  let dist = Math.hypot(x - monster.x, y - monster.y);
+  if(dist < radius){
+    alert("죽음!");
+    location.reload();
+  }
+}
+
+/* ===== 맵 그리기 ===== */
+function drawMap(){
+  for(let y=0;y<map.length;y++){
+    for(let x=0;x<map[y].length;x++){
+      if(map[y][x]===1){
+        context.fillStyle="blue";
+        context.fillRect(x*tileSize,y*tileSize,tileSize,tileSize);
+      }
+      if(map[y][x]===2){
+        context.fillStyle="white";
+        context.beginPath();
+        context.arc(
+          x*tileSize+tileSize/2,
+          y*tileSize+tileSize/2,
+          5,0,Math.PI*2
+        );
+        context.fill();
+      }
+    }
+  }
+}
+
+/* ===== 메인 ===== */
+function drawPackman() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawMap();
+
+  /* 입 애니메이션 */
+  if ((dir=="right"&&sDegree>=Math.PI/6) ||
+      (dir=="left"&&sDegree>=7*Math.PI/6) ||
+      (dir=="up"&&sDegree>=10*Math.PI/6) ||
+      (dir=="down"&&sDegree>=16*Math.PI/6)) {
+    open=true;
+  } else if ((dir=="right"&&sDegree<=0) ||
+             (dir=="left"&&sDegree<=Math.PI) ||
+             (dir=="up"&&sDegree<=3*Math.PI/2) ||
+             (dir=="down"&&sDegree<=15*Math.PI/6)) {
+    open=false;
+  }
+
+  /* 이동 (벽 체크 추가됨) */
+  let nx=x, ny=y;
+  if(dir==="left") nx-=distance;
+  if(dir==="right") nx+=distance;
+  if(dir==="up") ny-=distance;
+  if(dir==="down") ny+=distance;
+
+  if(!isWall(nx,ny)){
+    x=nx; y=ny;
+  }
+
+  eatFood();
+  moveMonster();
+  checkCollision();
+
+  open ? sDegree -= Math.PI/60 : sDegree += Math.PI/60;
+
+  /* 팩맨 */
+  context.beginPath();
+  context.moveTo(x,y);
+  if(dir==="up"||dir==="down"){
+    context.arc(x,y,radius,sDegree,3*Math.PI-sDegree);
+  }else{
+    context.arc(x,y,radius,sDegree,2*Math.PI-sDegree);
+  }
+  context.fillStyle="yellow";
+  context.fill();
+  context.closePath();
+
+  /* 몬스터 */
+  context.fillStyle="red";
+  context.beginPath();
+  context.arc(monster.x, monster.y, radius, 0, Math.PI*2);
+  context.fill();
+
+  requestAnimationFrame(drawPackman);
+}
+
+drawPackman();
+</script>
+</body>
+</html>
