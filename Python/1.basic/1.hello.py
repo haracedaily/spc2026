@@ -1,0 +1,33 @@
+print('Hello, Python')
+print('Hello, ' + 'Python')
+print('Hello, {}'.format('Python'))
+print('Hello, %s' % 'Python')
+name = 'Python'
+num = 10
+print('Hello, ' + name)
+print("Hello, '{}'".format(name))
+print('Hello, %s %03d' % (name, num))
+print('Hello, {} {}'.format(name, num))
+print('Hello, {1} {0}'.format(name, num))
+# 플레이스 홀더 인자값으로 치환될것이다.
+print(f'Hello, {name}')
+print('Hello, ' + "'python'")
+print('Hello, ' + "'python'", end ="")
+print('Hello, ' + "'python'", end ="\n")
+print('Hello, ' + "'python'", end ="\t")
+print('Hello, ' + "'python'", end ="\t")
+pi = 3.141592
+print('pi = ' + str(pi))
+print('pi = ' + format(pi, '.2f'))
+print('pi = ' + format(pi, '.3f'))
+print(f'pi = {pi:.2f}')
+print(f'pi = {pi:.3f}')
+print(f"{pi:.2f}")
+print(f"{pi:>5.2f}")
+print(f"{10:>5d}")
+print(f"{10:>05d}")
+print(f"{10:<5d}")
+print(f"{10:^5d}")
+print(f"{10:>5d}")
+print(f"{10:^05d}")
+
