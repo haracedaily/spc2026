@@ -1,1 +1,8 @@
+#환경설정
 .vscode
+
+#맥북
+.DS_Store
+
+#업로드 파일
+uploads/
