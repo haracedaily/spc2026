@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>유저 조회</h1>
+    <form id="user_search_form">
+        <label for="id">아이디 : <input type="text" id="id"></label>
+        <button type="submit">검색</button>
+    </form>
+
+    <div id="result">
+
+    </div>
+    <!-- <script type="module" src="url_for('static','js/global.js')"></script> -->
+     <script>
+        document.getElementById('user_search_form').addEventListener('submit',(ev)=>{
+            ev.preventDefault();
+            const id = document.getElementById('id').value;
+            fetch(`/api/users/${id}`).then(resp=>{console.log(resp); return resp.json()}).then(data => console.log(data));
+        })
+     </script>
+</body>
+</html>
