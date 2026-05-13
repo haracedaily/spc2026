@@ -7,11 +7,22 @@ with sync_playwright() as p:
     page.goto("https://www.jobkorea.co.kr/Search/?stext=개발자&tabType=recruit")
     div = page.locator('div[data-sentry-component="JobList"]>div').nth(1).locator(">div")
     print(div.count())
+    links = []
     for i in range(div.count()):
         notice = div.nth(i)
         href = notice.locator("a").first
         href = href.get_attribute("href")
-        print(href)
+        # print(href)
         title = notice.locator('span.truncate').first.inner_text()
-        print("공고명 : ",title)
+        # print("공고명 : ",title)
+        links.append({"공고명":title,"href":href})
+    
+    for link in links:
+        page.goto(link["href"])
+        skills = page.locator('div[data-sentry-component="ChipTagsToggle"] span') 
+        print(str(link))
+        # print(skill.inner_text() for skill in skills)
+        print(skills.count())
+        break
+        # data-sentry-component="ChipTagsToggle"
     # lis = page.locator("div.as_headline ul li")
