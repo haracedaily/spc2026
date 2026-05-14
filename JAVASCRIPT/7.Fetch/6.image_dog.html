@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="Btn">강아지 출력</button>
+    <div id="result">
+
+    </div>
+    <script>
+        let btn = document.getElementById("Btn");
+        let res = document.getElementById('result');
+        btn.addEventListener('click',()=>{
+            fetch('https://dog.ceo/api/breeds/image/random2')
+            .then(resp=>resp.json()).then(data=>{
+                console.log(data)
+                if(data.status=="success"){
+                    if(res.childElementCount)
+                    res.innerHTML='';
+                    let img = document.createElement("img")
+                    img.width=250
+                    img.src= data["message"];
+                    res.appendChild(img);
+                }else{
+                    throw Error
+                }
+            })
+            .catch(err=>{console.error(err)
+                res.innerHTML=`
+                <p style="color:red;">이미지가 없습니다</p>
+                `
+            })
+
+
+        });
+        
+    </script>
+</body>
+</html>

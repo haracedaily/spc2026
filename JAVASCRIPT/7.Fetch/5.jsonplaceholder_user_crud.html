@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>외부 요청 테스트</h1>
+    <input type="text" id="search_id">
+    <button id="loadBtn">데이터 요청</button>
+    <button id="saveBtn">데이터 쓰기</button>
+    <button id="delBtn">데이터 삭제</button>
+    <button id="modBtn">데이터 수정</button>
+    <div id="result"></div>
+    <script>
+
+
+        const result = document.getElementById("result");
+        const loadBtn = document.getElementById("loadBtn");
+        const saveBtn = document.getElementById("saveBtn");
+        const delBtn = document.getElementById("delBtn");
+        const modBtn = document.getElementById("modBtn");
+        const search_id = document.getElementById('search_id');
+        // PUT 방식
+        modBtn.addEventListener('click',()=>{
+            let userId=search_id.value;
+               const postData = {
+                title:'hello',
+                body:'world',
+                userId,
+                id:userId
+            }
+                fetch(`https://jsonplaceholder.typicode.com/posts/${userId}`,{
+                    method:"PUT",
+                headers:{
+                    'Content-type':'application/json; charset=UTF-8'
+                },
+                body:JSON.stringify(postData),
+            }).then(resolve=>resolve.json()).then(res=>console.log(res)).catch(err=>console.log(err));
+        })
+        // DELETE 방식
+        delBtn.addEventListener('click',()=>{
+            fetch(`https://jsonplaceholder.typicode.com/posts/${search_id.value}`,{
+                method:"delete"
+            }).then(resolve=>resolve.json()).then(res=>console.log(res)).catch(err=>console.log(err));
+        })
+        //POST 방식
+        saveBtn.addEventListener('click',()=>{
+            const postData = {
+                title:'hello',
+                body:'world',
+                userId:1
+            }
+
+            fetch(`https://jsonplaceholder.typicode.com/posts`,{
+                method:"POST",
+                headers:{
+                    'Content-type':'application/json; charset=UTF-8'
+                },
+                body:JSON.stringify(postData),
+            }).then(resolve=>resolve.json()).then(res=>console.log(res)).catch(err=>console.log(err));
+        })
+        // GET방식
+        loadBtn.addEventListener("click", () => {
+        if(!search_id.value||!(/^[0-9]*$/.test(search_id.value)))
+        // ||!RegExp(/^[0-9]+$/,search_id.value)
+        return
+        fetch(`https://jsonplaceholder.typicode.com/users/${search_id.value}`)
+          .then((resolve) => resolve.json())
+          .then((data) => {
+            console.log("data : ", data);
+            
+            const result = document.querySelector("div#result");
+            result.innerHTML = `<ul>
+                    <li>Id: ${data.id}</li>
+                    <ul>
+                    <li>Name: ${data.name}</li>
+                    <li>Phone: ${data.phone}</li>
+                    <li>Username:${data.username}</li>
+                    </ul>
+                    </ul>`;
+          })
+          .catch((err) => console.log("오류 남 : ", err));
+      });
+    </script>
+  </body>
+</html>

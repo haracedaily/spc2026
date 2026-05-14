@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select name="" id="breed">
+    </select>
+    <select name="" id="subBreed">
+        <option value="">-</option>
+    </select>
+    <button id="Btn">강아지 조회</button>
+    <div id="result">
+
+    </div>
+    <script>
+        let btn = document.getElementById("Btn");
+        let res = document.getElementById('result');
+        let breed = document.getElementById('breed')
+        let subBreed= document.getElementById('subBreed')
+        window.addEventListener('DOMContentLoaded',()=>{
+            fetch('https://dog.ceo/api/breeds/list/all').then(resp=>resp.json()).then(data=>{
+                if(data.status=='success'){
+                   for(let el in data.message){
+                        let option = document.createElement('option');
+                        option.value = el;
+                        option.id=el;
+                        option.textContent=el;
+                        breed.appendChild(option)
+                   }
+                }
+            })
+        })
+
+breed.addEventListener('change',()=>{
+    fetch(`https://dog.ceo/api/breed/${breed.value}/list`).then(resp=>resp.json()).then(data=>{
+                if(data.status=='success'){
+                    if(subBreed.childElementCount)
+                    subBreed.innerHTML='<option value="">-</option>';
+                   for(let el of data.message){
+                        let option = document.createElement('option');
+                        option.value = el;
+                        option.id=el;
+                        option.textContent=el;
+                        subBreed.appendChild(option)
+                   }
+// if(subBreed.childElementCount&&subBreed.disabled)subBreed.disabled=false
+// else subBreed.disabled=true
+                }
+            })
+})
+
+
+        btn.addEventListener('click',()=>{
+            if(subBreed.value)
+            fetch(`https://dog.ceo/api/breed/${breed.value+"/"+subBreed.value}/images/random`)
+            .then(resp=>resp.json()).then(data=>{
+                console.log(data)
+                if(data.status=="success"){
+                    if(res.childElementCount)
+                    res.innerHTML='';
+                    let img = document.createElement("img")
+                    img.width=250
+                    img.src= data["message"];
+                    res.appendChild(img);
+                }else{
+                    throw Error
+                }
+            })
+            .catch(err=>{console.error(err)
+                res.innerHTML=`
+                <p style="color:red;">이미지가 없습니다</p>
+                `
+            })
+            else
+            fetch(`https://dog.ceo/api/breed/${breed.value}/images/random`)
+            .then(resp=>resp.json()).then(data=>{
+                console.log(data)
+                if(data.status=="success"){
+                    if(res.childElementCount)
+                    res.innerHTML='';
+                    let img = document.createElement("img")
+                    img.width=250
+                    img.src= data["message"];
+                    res.appendChild(img);
+                }else{
+                    throw Error
+                }
+            })
+            .catch(err=>{console.error(err)
+                res.innerHTML=`
+                <p style="color:red;">이미지가 없습니다</p>
+                `
+            })
+
+        });
+        
+    </script>
+</body>
+</html>

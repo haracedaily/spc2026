@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" placeholder="질문을 입력하세요" id="prompt">
+    <button id="sendBtn">전송</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('sendBtn').addEventListener('click',async ()=>{
+            try{
+                const response = await fetch("https://api.openai.com/v1/models",{
+                    headers:{
+                        "Authorization": "Bearer Api Key",//여기에 키를 입력 사실 뒤에 아이디랑 프로젝트 입력 안해도 동작함 => 키에서 이미 특정 됨
+                        "OpenAI-Organization":"openAI ID",
+                        "OpenAI-Project":"projectName"
+                        
+                    }
+                })
+                const data = await response.json()
+                
+                document.getElementById("result").innerHTML=`
+                ${JSON.stringify(data)}
+                `
+                }catch{   
+                    console.error(error)
+                }
+        })
+    </script>
+</body>
+</html>

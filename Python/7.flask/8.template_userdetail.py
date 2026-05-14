@@ -13,6 +13,7 @@ users = [
 @app.route("/")
 def index():
     final_html = render_template('users_detail.html', users=users)
+    
     print(final_html)
     return final_html
 

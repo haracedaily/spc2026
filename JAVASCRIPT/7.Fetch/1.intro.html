@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>외부 요청 테스트</h1>
+    <button id="loadBtn">데이터 요청</button>
+    <div id="result"></div>
+    <script>
+        const result = document.getElementById("result");
+        const loadBtn = document.getElementById("loadBtn");
+        loadBtn.addEventListener('click',()=>{
+            console.log('click!');
+            fetch('http://jsonplaceholder.typicode.com/todos/1').then(resolve=>{
+                if(!resolve.ok){
+                    console.log("응답은 왔으나, 에러 발생",response);
+                    throw new Error("알수 없는 ㅇ오류 발생")                }
+                return resolve.json()
+            }).then(data => {console.log("data : ",data)
+                const result = document.querySelector("div#result")
+                result.innerHTML = `<ul><li>Id: ${data.id}</li><li>Title:${data.title}</li></ul>`;
+        }).catch(err=>console.log("오류 남 : ",err))
+        })
+    </script>
+</body>
+</html>

@@ -37,14 +37,16 @@ def product():
 ###################
 # API 페이지 라우팅#
 ##################
+@app.route('/api/user')
 @app.route('/api/user/<id>')
-def search_user(id):
-    users = None
+def search_user(id=0):
+    users = usersWWW
     return jsonify({"result":users})
 
+@app.route('/api/product')
 @app.route('/api/product/<id>')
-def search_user(id):
-    products=None
+def search_product(id=0):
+    products=products
     return jsonify({"result":products})
 
 if __name__ == "__main__":
