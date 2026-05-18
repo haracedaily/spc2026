@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>장바구니</h1>
+    <table>
+        <thead>
+            <th>상품명</th>
+            <th>수량</th>
+            <th>가격</th>
+            <th>삭제</th>
+        </thead>
+        {% for item_id, item_info in carts.items() %}
+        <tr>
+            <td>
+                {{item_info.name}}
+            </td>
+            <td>
+                {{item_info.quantity}}
+            </td>
+            <td>
+                {{item_info.price * item_info.quantity}}
+            </td>
+        </tr>
+        {% endfor %}
+        <!-- {% if carts %}
+        {% for item in carts %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}</td>
+            <td>{{item.cnt}}</td>
+            <td><a href="subtraction?name={{item.name}}">빼기</a></td>
+        </tr>
+        {% endfor %}
+        {% endif %} -->
+    </table>
+    <p>전체가격 : {{total_price}} 원</p> 
+    <a href="/">상품목록 가기</a>
+</body>
+</html>

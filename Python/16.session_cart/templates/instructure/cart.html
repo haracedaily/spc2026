@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>🛒 장바구니</h1>
+<button>전체 비우기</button>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>수량</th>
+            <th>제거</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if carts %}
+        {% for cart in carts %}
+        {{ loop.index }}
+        {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

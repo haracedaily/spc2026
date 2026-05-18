@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>
+    🏠 홈 페이지
+</h1>
+<h4>이곳은 Flask 웹 어플리케이션의 시작 화면입니다.</h4>
+<a href="{{url_for('login')}}">로그인</a>
+<a href="{{url_for('product')}}">상품 보기</a>
+{% endblock %}
